@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AT1_Sensor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="800">
     <Grid>
         <Label Content="Sensing4U " HorizontalAlignment="Left" Height="30" Margin="15,14,0,0" VerticalAlignment="Top" Width="70" FontWeight="Bold"/>
-        <Button  x:Name="Btn_Save" Content="SAVE" HorizontalAlignment="Left" Height="30" Margin="525,384,0,0" VerticalAlignment="Top" Width="70"/>
+        <Button  x:Name="Btn_Save" Content="SAVE" HorizontalAlignment="Left" Height="30" Margin="525,384,0,0" VerticalAlignment="Top" Width="70" Click="Btn_Save_Click"/>
         <Button x:Name="Btn_Load" Content="LOAD" HorizontalAlignment="Left" Height="30" Margin="625,384,0,0" VerticalAlignment="Top" Width="70" Click="Btn_Load_Click"/>
         <Grid>
-            <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="260" Margin="20,49,0,0" VerticalAlignment="Top" Width="750" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+            <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="290" Margin="20,49,0,0" VerticalAlignment="Top" Width="750" d:ItemsSource="{d:SampleData ItemCount=5}"/>
             <Label Content="Average values" HorizontalAlignment="Left" Height="25" Margin="20,339,0,0" VerticalAlignment="Top" Width="95"/>
             <TextBox x:Name="Average_txtBox" HorizontalAlignment="Left" Height="30" Margin="25,359,0,0" TextWrapping="Wrap" Text="Average" VerticalAlignment="Top" Width="65"/>
             <TextBox x:Name="UB_txtBox" HorizontalAlignment="Left" Height="30" Margin="170,379,0,0" TextWrapping="Wrap" Text="UB" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.455,0.168"/>
@@ -21,6 +21,7 @@
             <Button x:Name="BinarySearch_Btn" Content="Binary Search" HorizontalAlignment="Left" Height="30" Margin="420,384,0,0" VerticalAlignment="Top" Width="85" Click="BinarySearch_Btn_Click"/>
             <Button Content="Previous" HorizontalAlignment="Left" Height="25" Margin="595,19,0,0" VerticalAlignment="Top" Width="55"/>
             <Button Content="Next" HorizontalAlignment="Left" Height="25" Margin="665,19,0,0" VerticalAlignment="Top" Width="55"/>
+            <TextBox x:Name="BinarySearch_txtBox" HorizontalAlignment="Left" Height="30" Margin="420,344,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="55"/>
 
 
         </Grid>

@@ -32,16 +32,16 @@ namespace AT1_Sensor
 
             ////replace the following with data. that will be loaded from load button 
             ////below is just for texting average
-        //    var loadData = new List<GridData>
-        //    {
-        //        new GridData { Grid = "A", Load = 100 },
-        //        new GridData { Grid = "B", Load = 150 },
-        //        new GridData { Grid = "C", Load = 200 },
-        //        new GridData { Grid = "D", Load = 250 }
-        //};
+            //    var loadData = new List<GridData>
+            //    {
+            //        new GridData { Grid = "A", Load = 100 },
+            //        new GridData { Grid = "B", Load = 150 },
+            //        new GridData { Grid = "C", Load = 200 },
+            //        new GridData { Grid = "D", Load = 250 }
+            //};
 
-        //    DataGrid.ItemsSource = loadData; // Bind data to DataGrid
-        //    CalculateAverage();
+            //    DataGrid.ItemsSource = loadData; // Bind data to DataGrid
+            //    CalculateAverage();
         }
 
 
@@ -59,17 +59,17 @@ namespace AT1_Sensor
             {
                 MessageBox.Show("No data available to calculate the average.", "Error");
             }
-         }
-
-
-
-            // Model class
-        public class GridData
-        {
-            public string Grid { get; set; }
-            public int Load { get; set; }
         }
 
+
+
+        // Model class
+        public class GridData
+        {
+            //public string Grid { get; set; }
+            public int Load { get; set; }
+        }
+        #region Load & Save 
 
 
         //Load method
@@ -100,7 +100,7 @@ namespace AT1_Sensor
                 string filePath = openFileDialog.FileName;
                 Load(filePath);
             }
-          
+
         }
 
         private void Load(string filePath)
@@ -128,9 +128,24 @@ namespace AT1_Sensor
             DataGrid.ItemsSource = dataTable.DefaultView;
         }
 
+
+
+
+        //Save
+        private void Btn_Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Save()
         {
+            var dataTable = new DataTable();
+
         }
+
+        #endregion
+
+
         private void Sort()
         {
 
@@ -140,12 +155,44 @@ namespace AT1_Sensor
         {
 
         }
+        #region
         //Binary Search 
         private void BinarySearch_Btn_Click(object sender, RoutedEventArgs e)
         {
 
+
+        }
+        private int BinarySearch(List<GridData> sortedList, double target)
+        {
+            int low = 0;
+            int high = sortedList.Count - 1;
+
+            while (low <= high)
+            {
+                int mid = low + (high - low) / 2;
+                if (sortedList[mid].Load == target)
+                {
+                    return mid; // Target found
+                }
+                else if (sortedList[mid].Load < target)
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+
+            return -1; // Target not found
         }
 
-      
+
+        #endregion
+
+
+
+        // for the next and previous . let say i am currently on sample2
+        //i should be able to see a label stating that i am on sample 2 , and same if i move to the other samples//
     }
 }
