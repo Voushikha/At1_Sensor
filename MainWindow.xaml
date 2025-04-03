@@ -8,23 +8,19 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Label Content="Sensing4U " HorizontalAlignment="Left" Height="30" Margin="15,14,0,0" VerticalAlignment="Top" Width="70" FontWeight="Bold"/>
-        <Button Content="SAVE" HorizontalAlignment="Left" Height="30" Margin="525,384,0,0" VerticalAlignment="Top" Width="70"/>
-        <Button Content="LOAD" HorizontalAlignment="Left" Height="30" Margin="625,384,0,0" VerticalAlignment="Top" Width="70"/>
+        <Button  x:Name="Btn_Save" Content="SAVE" HorizontalAlignment="Left" Height="30" Margin="525,384,0,0" VerticalAlignment="Top" Width="70"/>
+        <Button x:Name="Btn_Load" Content="LOAD" HorizontalAlignment="Left" Height="30" Margin="625,384,0,0" VerticalAlignment="Top" Width="70" Click="Btn_Load_Click"/>
         <Grid>
-            <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="150" Margin="20,49,0,0" VerticalAlignment="Top" Width="750" d:ItemsSource="{d:SampleData ItemCount=5}"/>
-            <Label Content="Average values" HorizontalAlignment="Left" Height="25" Margin="20,219,0,0" VerticalAlignment="Top" Width="95"/>
-            <TextBox HorizontalAlignment="Left" Height="30" Margin="25,249,0,0" TextWrapping="Wrap" Text="Average" VerticalAlignment="Top" Width="65"/>
-            <TextBox x:Name="UB_txtBox" HorizontalAlignment="Left" Height="30" Margin="265,249,0,0" TextWrapping="Wrap" Text="UB" VerticalAlignment="Top" Width="55"/>
-            <TextBox x:Name="LB_txtBox" HorizontalAlignment="Left" Height="30" Margin="335,249,0,0" TextWrapping="Wrap" Text="LB" VerticalAlignment="Top" Width="55"/>
-            <Label Content="Input Bounds:" HorizontalAlignment="Left" Height="30" Margin="260,214,0,0" VerticalAlignment="Top" Width="75"/>
-            <TabControl HorizontalAlignment="Left" Height="35" Margin="565,-1,0,0" VerticalAlignment="Top" Width="225">
-                <TabItem Header="TabItem">
-                    <Grid Background="#FFE5E5E5"/>
-                </TabItem>
-                <TabItem Header="TabItem">
-                    <Grid Background="#FFE5E5E5"/>
-                </TabItem>
-            </TabControl>
+            <DataGrid x:Name="DataGrid" HorizontalAlignment="Left" Height="260" Margin="20,49,0,0" VerticalAlignment="Top" Width="750" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+            <Label Content="Average values" HorizontalAlignment="Left" Height="25" Margin="20,339,0,0" VerticalAlignment="Top" Width="95"/>
+            <TextBox x:Name="Average_txtBox" HorizontalAlignment="Left" Height="30" Margin="25,359,0,0" TextWrapping="Wrap" Text="Average" VerticalAlignment="Top" Width="65"/>
+            <TextBox x:Name="UB_txtBox" HorizontalAlignment="Left" Height="30" Margin="170,379,0,0" TextWrapping="Wrap" Text="UB" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.455,0.168"/>
+            <TextBox x:Name="LB_txtBox" HorizontalAlignment="Left" Height="30" Margin="240,379,0,0" TextWrapping="Wrap" Text="LB" VerticalAlignment="Top" Width="55"/>
+            <Label Content="Sensor Range:" HorizontalAlignment="Left" Height="30" Margin="165,344,0,0" VerticalAlignment="Top" Width="95"/>
+
+            <Button x:Name="BinarySearch_Btn" Content="Binary Search" HorizontalAlignment="Left" Height="30" Margin="420,384,0,0" VerticalAlignment="Top" Width="85" Click="BinarySearch_Btn_Click"/>
+            <Button Content="Previous" HorizontalAlignment="Left" Height="25" Margin="595,19,0,0" VerticalAlignment="Top" Width="55"/>
+            <Button Content="Next" HorizontalAlignment="Left" Height="25" Margin="665,19,0,0" VerticalAlignment="Top" Width="55"/>
 
 
         </Grid>
