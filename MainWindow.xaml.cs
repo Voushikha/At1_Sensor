@@ -10,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -25,6 +24,10 @@ namespace AT1_Sensor
     {
         // try use traffic ilight system , for the files 
         //can use files or csv to load data
+
+        // cOLUMNS DISABLE SORT //
+
+
         private double lowerBound = 0;
         private double upperBound = 0;
 
@@ -35,17 +38,13 @@ namespace AT1_Sensor
         /// </summary>
 
 
-
-        
-       
-
         public MainWindow()
         {
             InitializeComponent();
-            
-            
+
+
         }
-       
+
 
 
         // Model class
@@ -55,40 +54,47 @@ namespace AT1_Sensor
             public int Load { get; set; }
         }
 
-        public static double[,] SensorArray; // 2d array implme
+        public static double[,]? SensorArray; 
+          // 2d array implme
 
         //changed avg method 
 
+        //private void CalculateAverage()
+        //{
+        //    double sum = 0;
+        //    int count = 0;
+
+        //    foreach (DataRowView rowView in DataGrid.ItemsSource)
+        //    {
+        //        foreach (var item in rowView.Row.ItemArray)
+        //        {
+        //            if (int.TryParse(item.ToString(), out int value))
+        //            {
+        //                sum += value;
+        //                count++;
+        //            }
+        //        }
+        //    }
+
+        //    if (count > 0)
+        //    {
+        //        double average = sum / count;
+        //        Average_txtBox.Text = average.ToString("F2");
+        //    }
+        //    else
+        //    {
+        //        Average_txtBox.Text = "N/A";
+        //    }
+        //}
         private void CalculateAverage()
         {
-            double sum = 0;
-            int count = 0;
-
-            foreach (DataRowView rowView in DataGrid.ItemsSource)
-            {
-                foreach (var item in rowView.Row.ItemArray)
-                {
-                    if (int.TryParse(item.ToString(), out int value))
-                    {
-                        sum += value;
-                        count++;
-                    }
-                }
-            }
-
-            if (count > 0)
-            {
-                double average = sum / count;
-                Average_txtBox.Text = average.ToString("F2");
-            }
-            else
-            {
-                Average_txtBox.Text = "N/A";
-            }
+            double average = Singleton.Instance.CalculateAverage();
+            Average_txtBox.Text = average > 0 ? average.ToString("F2") : "N/A";
         }
 
-        #region Load & Save 
 
+        #region Load & Save 
+        // USE SINGLETON
 
         //Load method
 
@@ -111,11 +117,17 @@ namespace AT1_Sensor
                 DataView dataView = null;
                 if (extension == ".csv")
                 {
-                    dataView = LoadCsv(filePath);
+                    //using singleton
+                    dataView = Singleton.Instance.LoadCsv(filePath);
+                    //dataView = LoadCsv(filePath);
+                   
                 }
                 else if (extension == ".bin")
                 {
-                    dataView = LoadBin(filePath);
+                    //using singleton
+                    dataView = Singleton.Instance.LoadBin(filePath);
+                    
+                   // dataView = LoadBin(filePath);
                 }
 
                 if (dataView != null)
@@ -127,68 +139,6 @@ namespace AT1_Sensor
             }
         }
 
-
-
-
-
-        private void Btn_Next_Click(object sender, RoutedEventArgs e)
-        {
-            if (currentFileIndex < csvFiles.Count - 1)
-            {
-                currentFileIndex++;
-                string filePath = csvFiles[currentFileIndex];
-                string extension = System.IO.Path.GetExtension(filePath).ToLower();
-
-                DataView dataView = null;
-                if (extension == ".csv")
-                {
-                    dataView = LoadCsv(filePath);
-                }
-                else if (extension == ".bin")
-                {
-                    dataView = LoadBin(filePath);
-                }
-
-                if (dataView != null)
-                {
-                    DataGrid.ItemsSource = dataView;
-                    CalculateAverage();
-                    UpdateSampleLabel(filePath);
-                }
-            }
-        }
-
-
-        private void Btn_Previous_Click(object sender, RoutedEventArgs e)
-{
-            if (currentFileIndex > 0) // 
-            {
-                //currentFileIndex++;
-                //var dataView = Load(csvFiles[currentFileIndex]); // Load next file
-                currentFileIndex--;
-                string filePath = csvFiles[currentFileIndex];
-                string extension = System.IO.Path.GetExtension(filePath).ToLower();
-
-                DataView dataView = null;
-                if (extension == ".csv")
-                {
-                    dataView = LoadCsv(filePath);
-                }
-                else if (extension == ".bin")
-                {
-                    dataView = LoadBin(filePath);
-                }
-
-                if (dataView != null)
-                {
-
-
-                    DataGrid.ItemsSource = dataView;
-                    CalculateAverage();
-                    UpdateSampleLabel(filePath);
-                }
-            }
-        }
 
         //LoaD FOR csv only
         public static DataView LoadCsv(string path)
@@ -264,23 +214,7 @@ namespace AT1_Sensor
         }
 
 
-        //label sample no 
-        //private void UpdateSampleLabel()
-        //{
-        //    if (csvFiles.Count > 0)
-        //        SampleLabel.Content = $"Currently Viewing: {System.IO.Path.GetFileName(csvFiles[currentFileIndex])}";
-        //    else
-        //        SampleLabel.Content = "No file loaded";
-        //}
-        private void UpdateSampleLabel(string fileName)
-        {
-            SampleLabel.Content = $"Currently Viewing: {System.IO.Path.GetFileName(fileName)}";
-        }
 
-
-
-
-        //Save
         private void Btn_Save_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -295,7 +229,7 @@ namespace AT1_Sensor
             }
         }
 
-       
+
         private void Save(string filePath)
         {
             if (DataGrid.ItemsSource is DataView dataView)
@@ -325,81 +259,246 @@ namespace AT1_Sensor
             }
         }
 
+        private void UpdateSampleLabel(string fileName)
+        {
+            //$label - "Currently Viewing: {fileName}"
+            SampleLabel.Content = $" {System.IO.Path.GetFileName(fileName)}";
+        }
+
+
 
 
         #endregion
+        #region Previous Next Click
 
-        #region Binary Search 
-        //Binary Search 
-        private void SaveCSV(string filePath)
+        private void Btn_Next_Click(object sender, RoutedEventArgs e)
         {
-            if (DataGrid.ItemsSource is DataView dataView)
+            if (currentFileIndex < csvFiles.Count - 1)
             {
-                using (var writer = new StreamWriter(filePath))
-                {
-                    var columnNames = dataView.Table.Columns
-                        .Cast<DataColumn>()
-                        .Select(col => col.ColumnName);
-                    writer.WriteLine(string.Join(",", columnNames));
+                currentFileIndex++;
+                string filePath = csvFiles[currentFileIndex];
+                string extension = System.IO.Path.GetExtension(filePath).ToLower();
 
-                    foreach (DataRowView rowView in dataView)
-                    {
-                        var fields = rowView.Row.ItemArray
-                            .Select(field => field.ToString());
-                        writer.WriteLine(string.Join(",", fields));
-                    }
+                DataView dataView = null;
+                if (extension == ".csv")
+                {
+                    dataView = Singleton.Instance.LoadCsv(filePath); // use Singleton
+                }
+                else if (extension == ".bin")
+                {
+                    dataView = Singleton.Instance.LoadBin(filePath); // use Singleton
                 }
 
-                MessageBox.Show("CSV saved successfully.");
+                if (dataView != null)
+                {
+                    DataGrid.ItemsSource = dataView;
+                    CalculateAverage();
+                    UpdateSampleLabel(filePath);
+                }
+            }
+        }
+
+
+
+        private void Btn_Previous_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentFileIndex > 0)
+            {
+                currentFileIndex--;
+                string filePath = csvFiles[currentFileIndex];
+                string extension = System.IO.Path.GetExtension(filePath).ToLower();
+
+                DataView dataView = null;
+                if (extension == ".csv")
+                {
+                    dataView = Singleton.Instance.LoadCsv(filePath); // use Singleton
+                }
+                else if (extension == ".bin")
+                {
+                    dataView = Singleton.Instance.LoadBin(filePath); //  use Singleton
+                }
+
+                if (dataView != null)
+                {
+                    DataGrid.ItemsSource = dataView;
+                    CalculateAverage();
+                    UpdateSampleLabel(filePath);
+                }
+            }
+        }
+
+
+        #endregion
+        #region Binary Search 
+        //Binary Search 
+        private int BinarySearch(List<GridData> sortedList, double target)
+        {
+            int low = 0;
+            int high = sortedList.Count - 1;
+
+
+            while (low <= high)
+
+            {
+                int mid = low + (high - low) / 2;
+                if (sortedList[mid].Load == target)
+                {
+                    return mid; // Target found
+
+                }
+                else if (sortedList[mid].Load < target)
+
+
+
+                {
+                    low = mid + 1;
+
+
+                }
+                else
+
+
+                {
+                    high = mid - 1;
+
+
+                }
+            }
+
+            return -1; // Target not found
+
+
+
+        }
+        private void BinarySearch_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!double.TryParse(BinarySearch_txtBox.Text, out double target))
+            {
+                MessageBox.Show("Please enter a valid number to search.");
+                return;
+            }
+
+            var gridDataList = new List<GridData>();
+
+            foreach (DataRowView rowView in DataGrid.ItemsSource)
+            {
+                foreach (var item in rowView.Row.ItemArray)
+                {
+                    if (int.TryParse(item.ToString(), out int value))
+                    {
+                        gridDataList.Add(new GridData { Load = value });
+                    }
+                }
+            }
+
+            // Sort the list for binary search
+            var sortedList = gridDataList.OrderBy(x => x.Load).ToList();
+
+            // Perform binary search
+            int resultIndex = BinarySearch(sortedList, target);
+
+            if (resultIndex != -1)
+            {
+                MessageBox.Show($"Value {target} found at index {resultIndex} in the sorted list.");
             }
             else
             {
-                MessageBox.Show("No data to save.");
+                MessageBox.Show($"Value {target} not found.");
             }
         }
-        private void SaveBin(string filePath)
-        {
-            try
-            {
-                using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
-                {
-                    int rowCount = SensorArray.GetLength(0);
-                    int colCount = SensorArray.GetLength(1);
 
-                    writer.Write(rowCount);
-                    writer.Write(colCount);
-
-                    for (int i = 0; i < rowCount; i++)
-                        for (int j = 0; j < colCount; j++)
-                            writer.Write(SensorArray[i, j]);
-                }
-
-                MessageBox.Show("Binary file saved successfully.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error saving binary: " + ex.Message);
-            }
-        }
 
 
         #endregion
+        //private void SaveCSV(string filePath)
+        //{
+        //    if (DataGrid.ItemsSource is DataView dataView)
+        //    {
+        //        using (var writer = new StreamWriter(filePath))
+        //        {
+        //            var columnNames = dataView.Table.Columns
+        //                .Cast<DataColumn>()
+        //                .Select(col => col.ColumnName);
+        //            writer.WriteLine(string.Join(",", columnNames));
+
+        //            foreach (DataRowView rowView in dataView)
+        //            {
+        //                var fields = rowView.Row.ItemArray
+        //                    .Select(field => field.ToString());
+        //                writer.WriteLine(string.Join(",", fields));
+        //            }
+        //        }
+
+        //        MessageBox.Show("CSV saved successfully.");
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("No data to save.");
+        //    }
+        //}
+        //private void SaveBin(string filePath)
+        //{
+        //    try
+        //    {
+        //        using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
+        //        {
+        //            int rowCount = SensorArray.GetLength(0);
+        //            int colCount = SensorArray.GetLength(1);
+
+        //            writer.Write(rowCount);
+        //            writer.Write(colCount);
+
+        //            for (int i = 0; i < rowCount; i++)
+        //                for (int j = 0; j < colCount; j++)
+        //                    writer.Write(SensorArray[i, j]);
+        //        }
+
+        //        MessageBox.Show("Binary file saved successfully.");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Error saving binary: " + ex.Message);
+        //    }
+        //}
 
 
+
+        //label sample no 
+        //private void UpdateSampleLabel()
+        //{
+        //    if (csvFiles.Count > 0)
+        //        SampleLabel.Content = $"Currently Viewing: {System.IO.Path.GetFileName(csvFiles[currentFileIndex])}";
+        //    else
+        //        SampleLabel.Content = "No file loaded";
+        //}
+
+
+        //Save
         private void Bounds_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Update bounds from the textboxes
             double.TryParse(LB_txtBox.Text, out lowerBound);
             double.TryParse(UB_txtBox.Text, out upperBound);
+
+            
+            if (Resources["ColorIndicators"] is ColorIndicators converter)
+            {
+                converter.LowerBound = lowerBound;
+                converter.UpperBound = upperBound;
+
+                // Refresh the grid so color changes take effect
+                DataGrid.Items.Refresh();
+            }
         }
 
+        
+        //sort dtaset based on names, then search, 
+        // should be able to search the dataset as well on the same textbox that is used to search for valuees
 
-        // for the next and previous . let say i am currently on sample2
-        //i should be able to see a label stating that i am on sample 2 , and same if i move to the other samples//
+       
 
 
-
-
+    
 
     }
 
