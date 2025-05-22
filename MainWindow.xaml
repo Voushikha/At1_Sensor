@@ -14,6 +14,7 @@
 
 
     <Grid>
+        
         <Label Content="Sensing4U " HorizontalAlignment="Left" Height="30" Margin="15,14,0,0" VerticalAlignment="Top" Width="70" FontWeight="Bold"/>
         <Button  x:Name="Btn_Save" Content="SAVE" HorizontalAlignment="Left" Height="30" Margin="525,384,0,0" VerticalAlignment="Top" Width="70" Click="Btn_Save_Click"/>
         <Button x:Name="Btn_Load" Content="LOAD" HorizontalAlignment="Left" Height="30" Margin="625,384,0,0" VerticalAlignment="Top" Width="70" Click="Btn_Load_Click"/>

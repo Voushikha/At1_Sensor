@@ -14,7 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 //using static System.Net.WebRequestMethods;
+
 
 namespace AT1_Sensor
 {
@@ -41,8 +43,12 @@ namespace AT1_Sensor
         public MainWindow()
         {
             InitializeComponent();
-
-
+           
+           Trace.WriteLine("MainWindow initialized.");
+            // Initialize the DataGrid and other UI components here
+            DataGrid.ItemsSource = null; // Set to null initially
+            DataGrid.CanUserSortColumns = false; // Disable sorting on columns
+          //  DataGrid.ScrollChanged += DataGrid_ScrollChanged; // Attach scroll event handler
         }
 
 
@@ -88,6 +94,7 @@ namespace AT1_Sensor
         //}
         private void CalculateAverage()
         {
+            Trace.WriteLine(" Average Calculated");
             double average = Singleton.Instance.CalculateAverage(currentFileIndex);
             Average_txtBox.Text = average > 0 ? average.ToString("F2") : "N/A";
         }
@@ -100,13 +107,16 @@ namespace AT1_Sensor
         //Load method
         private void Btn_Load_Click(object sender, RoutedEventArgs e)
         {
+           
+            // Open a file dialog to select CSV files
             OpenFileDialog openFile = new OpenFileDialog
             {
                 Filter = "CSV and Binary Files|*.csv;*.bin",
                 Multiselect = true
             };
-
+          
             if (openFile.ShowDialog() == true)
+                Trace.WriteLine("File dialog opened");
             {
                 csvFiles.Clear();
                 csvFiles.AddRange(openFile.FileNames);
@@ -116,6 +126,7 @@ namespace AT1_Sensor
                     currentFileIndex = 0;
                     LoadFileAtIndex(currentFileIndex);
                 }
+                Trace.WriteLine("Files loaded successfully");
             }
         }
         //. Separate File Loading Logic
@@ -158,9 +169,10 @@ namespace AT1_Sensor
                 // Display the data in the DataGrid
                 DataGrid.ItemsSource = dataView;
 
-                CalculateAverage();
+               
 
                 UpdateSampleLabel(filePath);
+                CalculateAverage();
 
                 ApplyCellColoring();
 
@@ -177,6 +189,7 @@ namespace AT1_Sensor
                     // Sort the list of sensors by label for easier searching
                     Singleton.Instance.SortSensorsByLabel();
                 }
+               
             }
         }
 
@@ -184,140 +197,7 @@ namespace AT1_Sensor
 
 
 
-        //private List<string> loadedFiles = new List<string>(); // List to store loaded file paths
-
-        //        private void Btn_Load_Click(object sender, RoutedEventArgs e)
-        //        {
-        //            OpenFileDialog openFile = new OpenFileDialog
-        //            {
-        //                Filter = "CSV and Binary Files|*.csv;*.bin",
-        //                Multiselect = true
-        //            };
-
-        //            if (openFile.ShowDialog() == true)
-        //            {
-        //                csvFiles = new List<string>(openFile.FileNames);
-        //                currentFileIndex = 0;
-
-        //                string filePath = csvFiles[currentFileIndex];
-        //                string extension = System.IO.Path.GetExtension(filePath).ToLower();
-
-        //                DataView dataView = null;
-        //                double[,] sensorArray = Singleton.Instance.SensorArray ?? new double[0, 0]; // Create a local variable  
-
-        //                if (extension == ".csv")
-        //                {
-        //                    dataView = new FileLoader().LoadCsv(filePath, ref sensorArray);
-        //                }
-        //                else if (extension == ".bin")
-        //                {
-        //                    dataView = new FileLoader().LoadBin(filePath, ref sensorArray);
-        //                }
-
-        //                Singleton.Instance.SensorArray = sensorArray; // Update the Singleton property  
-
-        //                if (dataView != null)
-        //                {
-        //                    DataGrid.ItemsSource = dataView;
-        //                    CalculateAverage();
-        //                    UpdateSampleLabel(filePath);
-        //                    ApplyCellColoring();
-
-        //                    // Add the loaded file to the list
-        //                    if (!loadedFiles.Contains(filePath))
-        //                    {
-        //                        loadedFiles.Add(filePath);
-        //                    }
-        //                }
-        //            }
-        //        }
-
-
-        //   private void Btn_Load_Click(object sender, RoutedEventArgs e)
-        //   {
-        //       OpenFileDialog openFile = new OpenFileDialog
-        //       {
-        //           Filter = "CSV and Binary Files|*.csv;*.bin",
-        //           Multiselect = true // Allow multiple file selection
-        //       };
-
-        //       if (openFile.ShowDialog() == true)
-        //       {
-        //           // Pass the csvFiles collection by reference to update it
-        //           LoadFiles(openFile.FileNames, ref csvFiles);
-
-        //           // Load the first file in the collection (if any)
-        //           if (csvFiles.Count > 0)
-        //           {
-        //               currentFileIndex = 0;
-        //               LoadFileAtIndex(currentFileIndex);
-        //           }
-        //       }
-        //   }
-        ////  Singleton.instances.Sensors.Clear();
-        //   private void LoadFiles(string[] filePaths, ref List<string> fileCollection)
-        //   {
-        //       // Clear the existing collection and add the new file paths
-        //       fileCollection.Clear();
-        //       fileCollection.AddRange(filePaths);
-        //   }
-
-
-
-        // too many function in one 
-        // simplify it 
-        // make sure that it snot overrideing the old data 
-        // the load data is too complicated, diiferent function on one thing 
-
-        //try separationg file loading logic 
-        //private void LoadFileAtIndex(int index)
-        //{
-        //    if (index >= 0 && index < csvFiles.Count)
-        //    {
-        //        string filePath = csvFiles[index];
-        //        string extension = System.IO.Path.GetExtension(filePath).ToLower();
-
-        //        DataView dataView = null;
-        //        double[,] sensorArray = new double[0, 0]; // Just initialize a new local array// New array for each file
-
-
-        //        if (extension == ".csv")
-        //        {
-        //            dataView = new FileLoader().LoadCsv(filePath, ref sensorArray);
-        //        }
-        //        else if (extension == ".bin")
-        //        {
-        //            dataView = new FileLoader().LoadBin(filePath, ref sensorArray);
-        //        }
-
-        //        var sensor = new Sensor
-        //        {
-        //            //Label = System.IO.Path.GetFileName(filePath),
-        //            Label = System.IO.Path.GetFileName(filePath).Trim().ToLowerInvariant(),
-
-        //            Data = sensorArray
-        //        };
-
-        //        if (Singleton.Instance.Sensors.Count > index)
-        //        {
-        //            Singleton.Instance.Sensors[index] = sensor;// Overwrites existing data // wrong!
-
-        //        }
-        //        else
-        //        {
-        //            Singleton.Instance.Sensors.Add(sensor);// Adds new data if index is out of bounds
-
-        //        }
-
-        //        if (dataView != null)
-        //        {
-        //            DataGrid.ItemsSource = dataView;
-        //            CalculateAverage();
-        //            UpdateSampleLabel(filePath);
-        //            ApplyCellColoring();
-        //        }
-        //    }
-        //}
+  
 
         #region Try separating file loading logic, to avoid overriding the old data
 
@@ -341,6 +221,7 @@ namespace AT1_Sensor
             {
                 Save(saveFileDialog.FileName);
             }
+           
         }
 
 
@@ -361,11 +242,15 @@ namespace AT1_Sensor
                     {
                         var fields = rowView.Row.ItemArray
                             .Select(field => field.ToString());
+
+                        Trace.WriteLine("data written to file.");
                         writer.WriteLine(string.Join(",", fields));
+                        
                     }
                 }
 
                 MessageBox.Show("Data saved successfully.");
+                Trace.WriteLine("File successfully saved");
             }
             else
             {
@@ -384,38 +269,46 @@ namespace AT1_Sensor
 
         private void Btn_Next_Click(object sender, RoutedEventArgs e)
         {
-            // Check if we are not already at the last file
+            Trace.WriteLine("Btn_Next_Click invoked.");
+
+            // Check if we are not already at the last file  
             if (currentFileIndex < csvFiles.Count - 1)
             {
-                // Move to the next file by increasing the index
+                // Move to the next file by increasing the index  
                 currentFileIndex++;
 
-                // Load the file at the new index and update the view
+                // Load the file at the new index and update the view  
                 LoadFileAtIndex(currentFileIndex);
+                Trace.WriteLine($"Moved to next file. Current index: {currentFileIndex}");
             }
             else
             {
-                // If we're already at the last file, show a message to the user
+                // If we're already at the last file, show a message to the user  
                 MessageBox.Show("You are viewing the last file.");
+                Trace.WriteLine("Already at the last file.");
             }
         }
-
+   
         
-        private void Btn_Previous_Click(object sender, RoutedEventArgs e)
+private void Btn_Previous_Click(object sender, RoutedEventArgs e)
         {
-            // Check if we are not already at the first file
+            Trace.WriteLine("Btn_Previous_Click invoked."); 
+
+            // Check if we are not already at the first file  
             if (currentFileIndex > 0)
             {
-                // Move to the previous file by decreasing the index
+                // Move to the previous file by decreasing the index  
                 currentFileIndex--;
 
-                // Load the file at the new index and update the view
+                // Load the file at the new index and update the view  
                 LoadFileAtIndex(currentFileIndex);
+                Trace.WriteLine($"Moved to previous file. Current index: {currentFileIndex}"); 
             }
             else
             {
-                // If we're already at the first file, show a message to the user
+                // If we're already at the first file, show a message to the user  
                 MessageBox.Show("You are viewing the first file.");
+                Trace.WriteLine("Already at the first file."); 
             }
         }
 
@@ -463,49 +356,18 @@ namespace AT1_Sensor
 
 
         }
-
-        //private void BinarySearch_Btn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (!double.TryParse(BinarySearch_txtBox.Text, out double target))
-        //    {
-        //        MessageBox.Show("Please enter a valid number to search.");
-        //        return;
-        //    }
-
-        //    bool matchFound = false;
-
-        //    DataGrid.UpdateLayout(); // Refresh 
-
-        //    foreach (var item in DataGrid.Items)
-        //    {
-        //        if (DataGrid.ItemContainerGenerator.ContainerFromItem(item) is DataGridRow row)
-        //        {
-        //            foreach (DataGridCell cell in GetCells(row))
-        //            {
-        //                if (cell.Content is TextBlock textBlock && double.TryParse(textBlock.Text, out double value))
-        //                {
-        //                    if (value == target)
-        //                    {
-        //                        cell.Background = Brushes.Yellow;
-        //                        matchFound = true;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    if (!matchFound)
-        //    {
-        //        MessageBox.Show($"Value {target} not found.");
-        //    }
-        //}
         private void BinarySearch_Btn_Click(object sender, RoutedEventArgs e)
         {
+            Trace.WriteLine("BinarySearch_Btn_Click invoked.");
+
             if (!double.TryParse(BinarySearch_txtBox.Text, out double target))
             {
                 MessageBox.Show("Please enter a valid number to search.");
+                Trace.WriteLine("Invalid input for binary search.");
                 return;
             }
+
+            Trace.WriteLine($"Targeted binary search value: {target}");
 
             // Extract data from DataGrid into a sorted list  
             var sortedList = new List<GridData>();
@@ -523,16 +385,23 @@ namespace AT1_Sensor
                 }
             }
 
+            Trace.WriteLine($"Extracted {sortedList.Count} items from DataGrid.");
+
             // Sort the list before performing binary search  
             sortedList = sortedList.OrderBy(x => x.Load).ToList();
+            Trace.WriteLine("Sorted the list for binary search.");
 
             // Perform binary search  
             int foundIndex = BinarySearch(sortedList, target);
+            Trace.WriteLine(foundIndex != -1
+                ? $"Target value {target} found at index {foundIndex}."
+                : $"Target value {target} not found.");
 
             if (foundIndex != -1)
             {
                 // Highlight the matching cell in the DataGrid  
-                   DataGrid.UpdateLayout(); // Refresh  
+                DataGrid.UpdateLayout(); // Refresh  
+                Trace.WriteLine("Highlighting matching cell in DataGrid.");
 
                 foreach (var item in DataGrid.Items)
                 {
@@ -545,6 +414,7 @@ namespace AT1_Sensor
                                 if (value == target)
                                 {
                                     cell.Background = Brushes.Yellow;
+                                    Trace.WriteLine($"Cell with value {value} highlighted.");
                                 }
                             }
                         }
@@ -561,13 +431,18 @@ namespace AT1_Sensor
 //Search label
         private void SearchLabelButton_Click(object sender, RoutedEventArgs e)
         {
+            Trace.WriteLine("SearchLabelButton_Click invoked.");
+
             string targetLabel = SearchLabelTextBox?.Text?.Trim().ToLowerInvariant();
 
             if (string.IsNullOrWhiteSpace(targetLabel))
             {
                 MessageBox.Show("Please enter a label to search.");
+                Trace.WriteLine("SearchLabelButton_Click: No label entered.");
                 return;
             }
+
+            Trace.WriteLine($"SearchLabelButton_Click: Searching for label '{targetLabel}'.");
 
             // Extract labels from sensors and sort them  
             var sensors = Singleton.Instance.Sensors;
@@ -579,11 +454,13 @@ namespace AT1_Sensor
             if (foundIndex >= 0 && foundIndex < sortedSensors.Count)
             {
                 currentFileIndex = sensors.IndexOf(sortedSensors[foundIndex]);
+                Trace.WriteLine($"SearchLabelButton_Click: Label '{targetLabel}' found at index {foundIndex}.");
                 LoadFileAtIndex(currentFileIndex);
             }
             else
             {
                 MessageBox.Show($"No dataset found with label: {targetLabel}");
+                Trace.WriteLine($"SearchLabelButton_Click: Label '{targetLabel}' not found.");
             }
         }
         // sorting the data before performing a binary search
@@ -625,15 +502,22 @@ namespace AT1_Sensor
             ApplyCellColoring();
         }
 
+        #region Traffic LIghts
 
         //Save
-        #region Traffic LIghts
         private void Bounds_TextChanged(object sender, TextChangedEventArgs e)
         {
-            double.TryParse(LB_txtBox.Text, out lowerBound);
-            double.TryParse(UB_txtBox.Text, out upperBound);
+            if (double.TryParse(LB_txtBox.Text, out lowerBound))
+            {
+                Trace.WriteLine($"Lower bound set to: {lowerBound}");
+            }
 
-            ApplyCellColoring(); // refresh colors manually
+            if (double.TryParse(UB_txtBox.Text, out upperBound))
+            {
+                Trace.WriteLine($"Upper bound set to: {upperBound}");
+            }
+
+            ApplyCellColoring(); // refresh colors manually  
         }
 
 
