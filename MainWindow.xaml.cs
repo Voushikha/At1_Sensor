@@ -120,8 +120,7 @@ namespace AT1_Sensor
         }
         //. Separate File Loading Logic
         //Move the file loading logic into a dedicated method to handle CSV and binary file loading.
-        // This method loads a file (either CSV or BIN format) into a 2D array
-        // and returns a DataView which is used to display the data in the DataGrid.
+     
         private DataView LoadFile(string filePath, ref double[,] sensorArray)
         {
             // Get the file extension (e.g., ".csv" or ".bin")
@@ -134,8 +133,7 @@ namespace AT1_Sensor
             // If the file is a BIN file, use the FileLoader class to load it
             else if (extension == ".bin")
                 return new FileLoader().LoadBin(filePath, ref sensorArray);
-
-            // If the file type is not supported, show an error
+ 
             throw new NotSupportedException($"File type '{extension}' is not supported.");
         }
 
@@ -160,13 +158,10 @@ namespace AT1_Sensor
                 // Display the data in the DataGrid
                 DataGrid.ItemsSource = dataView;
 
-                // Update the average value shown in the text box
                 CalculateAverage();
 
-                // Update the label to show which file is currently viewed
                 UpdateSampleLabel(filePath);
 
-                // Color the cells based on the sensor value (green/red/blue)
                 ApplyCellColoring();
 
                 // If this file hasn’t already been added to the Singleton sensor list
@@ -331,59 +326,7 @@ namespace AT1_Sensor
         #endregion
 
 
-        #region Load csv bin
-        //LoaD FOR csv only
-        //private DataView LoadCsv(string filePath)
-        //{
-        //    // Implement the CSV loading logic here  
-        //    // Example:  
-        //    DataTable dataTable = new DataTable();
-        //    using (var reader = new StreamReader(filePath))
-        //    {
-        //        string[] headers = reader.ReadLine().Split(',');
-        //        foreach (string header in headers)
-        //        {
-        //            dataTable.Columns.Add(header);
-        //        }
-
-        //        while (!reader.EndOfStream)
-        //        {
-        //            string[] rows = reader.ReadLine().Split(',');
-        //            dataTable.Rows.Add(rows);
-        //        }
-        //    }
-        //    return dataTable.DefaultView;
-        //}
-
-        //private DataView LoadBin(string filePath)
-        //{
-        //    // Implement the binary file loading logic here  
-        //    // Example:  
-        //    DataTable dataTable = new DataTable();
-        //    using (var reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
-        //    {
-        //        int rowCount = reader.ReadInt32();
-        //        int colCount = reader.ReadInt32();
-
-        //        for (int i = 0; i < colCount; i++)
-        //        {
-        //            dataTable.Columns.Add($"Column{i + 1}");
-        //        }
-
-        //        for (int i = 0; i < rowCount; i++)
-        //        {
-        //            object[] row = new object[colCount];
-        //            for (int j = 0; j < colCount; j++)
-        //            {
-        //                row[j] = reader.ReadDouble();
-        //            }
-        //            dataTable.Rows.Add(row);
-        //        }
-        //    }
-        //    return dataTable.DefaultView;
-        //}
-
-        #endregion
+     
 
 
         private void Btn_Save_Click(object sender, RoutedEventArgs e)
@@ -479,7 +422,8 @@ namespace AT1_Sensor
 
         #endregion
         #region Binary Search 
-        //Binary Search 
+
+        // Binary search method
         private int BinarySearch(List<GridData> sortedList, double target)
         {
             int low = 0;
@@ -764,8 +708,7 @@ namespace AT1_Sensor
 
         }
         //sort dtaset based on names, then search, 
-        // should be able to search the dataset as well on the same textbox that is used to search for valuees
-
+      
         //make the color choice it part of the cell ,
         //try adding a button
 
