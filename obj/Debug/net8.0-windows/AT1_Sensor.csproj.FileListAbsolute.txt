@@ -1,0 +1,42 @@
+C:\Users\30077230\Source\Repos\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.exe
+C:\Users\30077230\Source\Repos\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.deps.json
+C:\Users\30077230\Source\Repos\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.runtimeconfig.json
+C:\Users\30077230\Source\Repos\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.dll
+C:\Users\30077230\Source\Repos\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.pdb
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor_MarkupCompile.cache
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor_MarkupCompile.lref
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.g.resources
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.AssemblyInfoInputs.cache
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.AssemblyInfo.cs
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.csproj.CoreCompileInputs.cache
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.sourcelink.json
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.dll
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\refint\AT1_Sensor.dll
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.pdb
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.genruntimeconfig.cache
+C:\Users\30077230\Source\Repos\At1_Sensor\obj\Debug\net8.0-windows\ref\AT1_Sensor.dll
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.exe
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.deps.json
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.runtimeconfig.json
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.dll
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\bin\Debug\net8.0-windows\AT1_Sensor.pdb
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\MainWindow.g.cs
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\App.g.cs
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor_MarkupCompile.cache
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor_MarkupCompile.lref
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\MainWindow.baml
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.g.resources
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.GeneratedMSBuildEditorConfig.editorconfig
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.AssemblyInfoInputs.cache
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.AssemblyInfo.cs
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.csproj.CoreCompileInputs.cache
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.sourcelink.json
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.dll
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\refint\AT1_Sensor.dll
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.pdb
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\AT1_Sensor.genruntimeconfig.cache
+D:\Stage 2 Diploma\c# two\Assessment\AT1\AT1_Sensor\At1_Sensor\obj\Debug\net8.0-windows\ref\AT1_Sensor.dll

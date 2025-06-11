@@ -12,73 +12,71 @@ namespace AT1_Sensor
 {
     public class FileLoader
     {
-        public DataView LoadCsv(string path, ref double[,] sensorArray)
+        public DataView Load(string filePath, ref double[,] sensorArray)
         {
-            DataTable dataTable = new DataTable();
-            TextFieldParser parser = new TextFieldParser(path);
-            parser.SetDelimiters(",");
+            string extension = Path.GetExtension(filePath).ToLower();
 
-            List<string[]> rows = new List<string[]>();
-
-            if (!parser.EndOfData)
+            return extension switch
             {
-                var columns = parser.ReadFields();
-                foreach (var col in columns)
-                    dataTable.Columns.Add(col);
+                ".csv" => LoadCsv(filePath, ref sensorArray),
+                ".bin" => LoadBin(filePath, ref sensorArray),
+                _ => throw new NotSupportedException($"File type '{extension}' is not supported.")
+            };
+        }
+
+        public DataView LoadCsv(string filePath, ref double[,] sensorArray)
+        {
+            var table = new DataTable();
+            var lines = File.ReadAllLines(filePath);
+
+            if (lines.Length == 0)
+                throw new Exception("CSV file is empty.");
+
+            // Create columns based on the first row
+            var headers = lines[0].Split(',');
+            foreach (var header in headers)
+                table.Columns.Add(header);
+
+            // Create data rows
+            sensorArray = new double[lines.Length - 1, headers.Length];
+            for (int i = 1; i < lines.Length; i++)
+            {
+                var values = lines[i].Split(',');
+                table.Rows.Add(values);
+
+                for (int j = 0; j < headers.Length; j++)
+                    sensorArray[i - 1, j] = double.Parse(values[j]);
             }
 
-            while (!parser.EndOfData)
-            {
-                var row = parser.ReadFields();
-                rows.Add(row);
-                dataTable.Rows.Add(row);
-            }
-
-            int rowCount = rows.Count;
-            int colCount = rows[0].Length;
-            sensorArray = new double[rowCount, colCount];
-
-            for (int i = 0; i < rowCount; i++)
-                for (int j = 0; j < colCount; j++)
-                    double.TryParse(rows[i][j], out sensorArray[i, j]);
-
-            return dataTable.DefaultView;
+            return table.DefaultView;
         }
 
         public DataView LoadBin(string filePath, ref double[,] sensorArray)
         {
-            try
+            using BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open));
+
+            int rows = reader.ReadInt32();
+            int cols = reader.ReadInt32();
+
+            sensorArray = new double[rows, cols];
+            var table = new DataTable();
+
+            for (int i = 0; i < cols; i++)
+                table.Columns.Add($"Col{i + 1}");
+
+            for (int i = 0; i < rows; i++)
             {
-                using (BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
+                var row = table.NewRow();
+                for (int j = 0; j < cols; j++)
                 {
-                    int rowCount = reader.ReadInt32();
-                    int colCount = reader.ReadInt32();
-
-                    sensorArray = new double[rowCount, colCount];
-                    DataTable dataTable = new DataTable();
-
-                    for (int col = 0; col < colCount; col++)
-                        dataTable.Columns.Add("Sensor " + (col + 1));
-
-                    for (int row = 0; row < rowCount; row++)
-                    {
-                        DataRow dataRow = dataTable.NewRow();
-                        for (int col = 0; col < colCount; col++)
-                        {
-                            double value = reader.ReadDouble();
-                            sensorArray[row, col] = value;
-                            dataRow[col] = value;
-                        }
-                        dataTable.Rows.Add(dataRow);
-                    }
-
-                    return dataTable.DefaultView;
+                    double value = reader.ReadDouble();
+                    sensorArray[i, j] = value;
+                    row[j] = value;
                 }
+                table.Rows.Add(row);
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Binary file load failed: " + ex.Message);
-            }
+
+            return table.DefaultView;
         }
     }
 }
